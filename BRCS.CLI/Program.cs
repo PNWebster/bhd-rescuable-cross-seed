@@ -38,9 +38,7 @@ namespace BRCS.CLI
             {
                 Seeker s = new Seeker(options.TorznabEndpoint, options.JacketApiKey, options.BhdApiKey, options.BhdRssKey);
 
-                var releases = await s.SearchAsync(options.Amount);
-
-                foreach (var option in releases)
+                await  foreach (var option in s.SearchAsync(options.Amount))
                 {
                     Console.WriteLine("Match found!");
                     Console.WriteLine($"\t{option.BHDDetails}");

@@ -20,17 +20,16 @@ namespace BRCS
            _bhdRssKey = bhdRssKey;
         }
 
-        public async Task<List<CrossSeedableRescuable>> SearchAsync(int amount = 10)
-        {
-            List<CrossSeedableRescuable> result = new List<CrossSeedableRescuable>();
-
+        public async IAsyncEnumerable<CrossSeedableRescuable> SearchAsync(int amount = 10)
+        { 
             var bhdClient = new BHDAPI.BHDAPIClient(_bhdApiKey, _bhdRssKey);
             var jackettClient = new Torznab.TorznabClient(_jackettUrl, _jacketApiKey);
             var httpClient = new HttpClient();
 
+            var returned = 0;
             var page = 1;
 
-            while (result.Count < amount)
+            while (returned < amount)
             {
                 var responses = await bhdClient.FindRescueableMoviesAsync(page);
                 if (responses.results.Length == 0)
@@ -52,23 +51,19 @@ namespace BRCS
 
                             if (probablySame)
                             {
-                                result.Add(new CrossSeedableRescuable
+                                yield return new CrossSeedableRescuable
                                 {
                                     BHDDetails = format.url,
                                     BHDDownloadUrl = format.download_url,
                                     PTPDetails = match.GroupAndRelease,
                                     PTPDownloadUrl = match.DownloadURL
-                                });
-
-                                if (result.Count == amount)
-                                    return result;
+                                };
+                                returned++;
                             }
                         }
                     }
                 }
             }
-
-            return result;
         }
     }
 }
