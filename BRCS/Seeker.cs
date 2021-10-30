@@ -59,6 +59,8 @@ namespace BRCS
                                     PTPDownloadUrl = match.DownloadURL
                                 };
                                 returned++;
+                                if (returned >= amount)
+                                    yield break;
                             }
                         }
                     }
