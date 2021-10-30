@@ -26,8 +26,6 @@ namespace BRCS.BHDAPI
                 { BHDParams.rsskey, _rssKey },
                 { BHDParams.categories, "Movies" },
                 { BHDParams.rescue, "1" },
-                { BHDParams.seeding, "0" },
-                { BHDParams.leeching, "0" },
                 { BHDParams.sort, "seeders" },
                 { BHDParams.order, "asc" },
                 { BHDParams.page, page.ToString() }
